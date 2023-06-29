@@ -1,9 +1,17 @@
 const express = require('express')
 const app = express()
+var morgan = require('morgan')
+
+morgan.token('object', function getObject (req,res) {   
+  req.object=JSON.stringify(req.body)
+  return req.object
+})
 
 app.use(express.json())
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :object'))
 
 const date = new Date()
+
 
 let persons=
 [
@@ -51,8 +59,9 @@ app.post('/api/persons', (request, response) => {
     number: body.number,
     id: generateId(),
   }
+const nameList = persons.map(person=>person.name)
 
-  if (persons.map(person=>person.name).includes(person.name)){
+  if (nameList.includes(person.name)){
     return response.status(400).json({
       error:'name must be unique'
     })
