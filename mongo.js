@@ -13,14 +13,14 @@ const url =
 mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
-const personSchema = new mongoose.Schema({ 
+const personSchema = new mongoose.Schema({
   name: String,
   number: Number
 })
 
 const Person = mongoose.model('Person', personSchema)
 
- const person = new Person({
+const person = new Person({
   name: process.argv[3],
   number: process.argv[4]
 })
@@ -28,14 +28,14 @@ const Person = mongoose.model('Person', personSchema)
 person.save().then(result => {
   console.log(`added ${person.name} number ${person.number} to phonebook`)
   mongoose.connection.close()
-}) 
+})
 
-if (process.argv.length==3){
- Person.find({}).then(result => {
-  result.forEach(person => {
-    console.log(person)
+if (process.argv.length===3){
+  Person.find({}).then(result => {
+    result.forEach(person => {
+      console.log(person)
+    })
+    mongoose.connection.close()
   })
-  mongoose.connection.close()
-}) 
 }
 
