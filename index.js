@@ -19,22 +19,21 @@ const date = new Date()
 
 
 app.post('/api/persons', (request, response,next) => {
-  const body = request.body
+  const {name, number} = request.body
 
-  if (!body.name) {
+  if (!name) {
     return response.status(400).json({
       error: 'fail: name missing'
     })
-  }else if(!body.number){
+  }else if(!number){
     return response.status(400).json({
       error: 'fail: number missing'
     })
   }
 
   const person = new Person( {
-    name: body.name,
-    number: body.number,
-    //id: generateId(),
+    name: name,
+    number: number
   })
 
 
